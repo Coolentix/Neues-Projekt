@@ -10,6 +10,7 @@ class Trupp:
         self.clicked = False  # Wir merken uns den Zustand
         self.arrow = False
         self.pos_arrow = None
+        self.has_events = True
 
 
     def handle_event(self, event):
@@ -21,7 +22,7 @@ class Trupp:
                     self.clicked = not self.clicked
 
             if event.button == 3:  # Rechtsklick: Ziel setzen
-                if self.clicked:
+                if self.clicked and self.arrow == False:
                     self.pos_arrow = pygame.math.Vector2(event.pos)
                     self.arrow = True
 
@@ -39,14 +40,13 @@ class Trupp:
                 self.pos_arrow = None
                 self.arrow = False
 
-    def zeichnen(self):
-        # 1. Den Hauptkreis zeichnen
-        pygame.draw.circle(self.screen, self.color, self.pos, self.size)
-
         # 2. Wenn er ausgewählt ist, einen schwarzen Rahmen drumherum
         if self.clicked:
             pygame.draw.circle(self.screen, (0, 0, 0), self.pos, self.size + 2, 3)
 
         if self.arrow:
             pygame.draw.line(self.screen, (0, 0, 0), self.pos, self.pos_arrow, 5)
+
+        # 1. Den Hauptkreis zeichnen
+        pygame.draw.circle(self.screen, self.color, self.pos, self.size)
 
